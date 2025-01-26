@@ -1,0 +1,27 @@
+---
+services:
+  #    py-sam:
+  #    image: ghcr.io/defenceau-data/sample-segment-anything-model:2180926
+  #    container_name: py-sam
+  #    hostname: py-sam
+  #    environment:
+  #      RAY_ADDRESS: "http://host.docker.internal:8265"
+  #      AWS_ACCESS_KEY_ID: "admin-user"
+  #      AWS_SECRET_ACCESS_KEY: "J/PptzgM3asgNUWeIZWzx5R8S3kUzQk7dW/vapuN"
+  #      MINIO_URL: "https://minio.blade.svc.cluster.local"
+  #      MINIO_SSL_VERIFY: "false"
+  #      PY_SAM__INPUT_PATH: "s3://tester/images"
+  #    restart: "no"
+  minio:
+    image: quay.io/minio/minio
+    container_name: sam-s3
+    hostname: minio
+    volumes:
+      - sam-s3-vol:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: server /data --console-address ":9001"
+
+volumes:
+  sam-s3-vol:

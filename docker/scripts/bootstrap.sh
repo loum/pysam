@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# shellcheck disable=SC2086
+ray job submit --runtime-env-json='{"env_vars": {"NVIDIA_VISIBLE_DEVICES": "all", "NVIDIA_DRIVER_CAPABILITIES": "compute,utility", "AWS_ACCESS_KEY_ID": "'${AWS_ACCESS_KEY_ID}'", "AWS_SECRET_ACCESS_KEY": "'${AWS_SECRET_ACCESS_KEY}'", "MINIO_URL": "'${MINIO_URL}'", "MINIO_SSL_VERIFY": "'${MINIO_SSL_VERIFY}'", "PY_SAM__NUM_CPUS": "'${PY_SAM__NUM_CPUS}'", "PY_SAM__NUM_GPUS": "'${PY_SAM__NUM_GPUS}'", "PY_SAM__CONCURRENCY": "'${PY_SAM__CONCURRENCY}'"}, "pip": ["opencv-python-headless", "matplotlib", "torch", "structlog", "git+https://github.com/facebookresearch/segment-anything-2.git", "torchvision", "httpx", "tenacity", "s3fs", "huggingface-hub"]}' --working-dir /opt/py-sam/app -- python py_sam -- fbr predict --model="${PY_SAM__MODEL}" --input-path="${PY_SAM__INPUT_PATH}" --output-path="${PY_SAM__OUTPUT_PATH}" --output-file-format "${PY_SAM__OUTPUT_FILE_FORMAT}"
